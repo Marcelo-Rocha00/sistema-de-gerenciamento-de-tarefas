@@ -8,3 +8,6 @@ class task(models.Model):
     Data_limite = models.DateTimeField()
     status = models.BooleanField()
     atribuida_a = models.ForeignKey(User, on_delete=models.CASCADE )
+    
+    def __str__(self):
+        return self.Titulo
