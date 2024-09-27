@@ -4,7 +4,11 @@ from .models import task
 from .serializers import taskSerializer
 
 class taskViewSet(viewsets.ModelViewSet):
-    class Meta:
-        queryset = task.objects.all()
-        serializer_class = taskSerializer
+    queryset = task.objects.all()
+    serializer_class = taskSerializer
+        
+        
+        
+        
+
 
