@@ -7,7 +7,7 @@ router = DefaultRouter()
 router.register(r'task', taskViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
     path('registro/', views.SignUP.as_view(), name="SignUP")
 ] 
 
