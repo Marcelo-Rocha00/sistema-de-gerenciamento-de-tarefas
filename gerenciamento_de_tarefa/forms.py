@@ -19,7 +19,7 @@ class CustomUserCreationForm(UserCreationForm): #criando um formulario personali
         user = super().save(commit=False) 
         
         #atribuindo o e-mail fornecido pelo formulário ao campo 'e-mail' do usuário.
-        user.email = self.cleaned['email'] #'cleaned_data' contém os dados validados do formulário
+        user.email = self.cleaned_data['email'] #'cleaned_data' contém os dados validados do formulário
         
         if commit:
             user.save()#finalmente salvando o usuario no banco de dados
