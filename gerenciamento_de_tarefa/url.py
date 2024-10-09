@@ -8,7 +8,7 @@ router.register(r'task', taskViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('registro/', views.SignUP.as_view(), name="SignUP")
+    path('registro/', views.SignUP.as_view(), name="signup"),
 ] 
 
 

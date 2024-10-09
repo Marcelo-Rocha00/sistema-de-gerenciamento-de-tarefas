@@ -11,7 +11,7 @@ class taskViewSet(viewsets.ModelViewSet):
         
 class SignUP(generic.CreateView):#utilizando o 'generic' que ajuda na criação de views
     form_class = CustomUserCreationForm #usando o formulario personalizado
-    success_url = reverse_lazy('registro') # URL de redirecionamento após registro bem-sucedido
+    success_url = reverse_lazy('login') # URL de redirecionamento após registro bem-sucedido
     template_name = 'registro.html' ## Nome do template HTML a ser renderizado para o registro
         
         
