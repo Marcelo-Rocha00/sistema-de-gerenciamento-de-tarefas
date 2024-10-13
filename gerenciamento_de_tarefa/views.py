@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm #importando o formulario personalizado com o e-mail
+from django.contrib.auth.decorators import login_required
+
 
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
     queryset = task.objects.all() # Define a queryset como todas as instâncias do modelo 'task'
@@ -19,6 +21,9 @@ class SignUP(generic.CreateView):#utilizando o 'generic' que ajuda na criação 
 class Login(LoginView):
     template_name = 'gerenciamento_de_tarefa/login.html'
 
+@login_required
+def perfil_usuario(request):
+    return render(request,'gerenciamento_de_tarefa/pagina_usuario.html', {'username': request.user.username} )
 
 
 
