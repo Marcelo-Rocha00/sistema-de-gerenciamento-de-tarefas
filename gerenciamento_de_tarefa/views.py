@@ -18,12 +18,15 @@ class SignUP(generic.CreateView):#utilizando o 'generic' que ajuda na criação 
     success_url = reverse_lazy('login') # URL de redirecionamento após registro bem-sucedido
     template_name = 'gerenciamento_de_tarefa/registro.html' #diretorio onde o template se encontra é o nome do arquivo html
         
-class Login(LoginView):
-    template_name = 'gerenciamento_de_tarefa/login.html'
+#casse personalizada para o processo de login
+class Login(LoginView):#essa classe herda 'LoginView' padrão do jogo, que ja tem toda a logica de autenticação de usuários
+    template_name = 'gerenciamento_de_tarefa/login.html'#formulario HTML para a personalização da pagina
 
-@login_required
+@login_required#decoretor que para o usuario acessar a pagina de usuario é necessario estar logado
 def perfil_usuario(request):
-    return render(request,'gerenciamento_de_tarefa/pagina_usuario.html', {'username': request.user.username} )
+    # Chama a função 'render' para gerar uma resposta HTML
+    return render(request,'gerenciamento_de_tarefa/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
+     , {'username': request.user.username} )# Envia um dicionário com o nome de usuário logado para o template
 
 
 

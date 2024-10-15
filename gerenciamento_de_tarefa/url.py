@@ -10,9 +10,9 @@ router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 't
 urlpatterns = [
     path('api/', include(router.urls)), #uma rota url para acesso da API
     path('registro/', views.SignUP.as_view(), name='registro'),  #Rota de acesso a pagina de registro
-    path('login/', views.Login.as_view(), name = 'login'),
-    path('usuario/', views.perfil_usuario, name = 'usuario' ),
-    path('logout/',LogoutView.as_view(next_page='login'), name= 'logout'),
+    path('login/', views.Login.as_view(), name = 'login'), #Rota de acesso a pagina de login
+    path('usuario/', views.perfil_usuario, name = 'usuario' ), #rota para a pagina de usuario
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'), #Rota para a pagina de logout, apos acessar a pagina logout o usuario sera redirecionado para a pagina login
    
 ] 
 

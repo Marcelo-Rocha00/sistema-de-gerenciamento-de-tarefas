@@ -7,11 +7,14 @@
 </head>
 <body>
     <h1>Perfil do Usuário</h1>
-    {% csrf_token %}
     
+    <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
     <p>Nome de Usuário: {{ username }}</p>
 
     <!-- Link para logout -->
-    <a href="{% url 'logout' %}">Logout</a>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+</form>
 </body>
 </html>

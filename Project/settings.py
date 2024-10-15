@@ -73,6 +73,8 @@ TEMPLATES = [
 
 LOGIN_REDIRECT_URL = 'usuario'
 
+LOGIN_URL = '/login/'  # Define a URL de login personalizada para o django não utilizar a url padrão de login
+
 WSGI_APPLICATION = 'Project.wsgi.application'
 
 
