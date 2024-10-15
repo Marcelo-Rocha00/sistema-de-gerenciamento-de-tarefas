@@ -137,5 +137,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backen
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
 EMAIL_USE_TLS = True  # Habilitar TLS
-EMAIL_HOST_USER = 'marcelorochafilho04m@gmail.com'  # Seu e-mail
+EMAIL_HOST_USER = ''  # Seu e-mail
 EMAIL_HOST_PASSWORD = 'sua-senha'  # Sua senha
