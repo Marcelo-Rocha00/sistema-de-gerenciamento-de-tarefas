@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from django.urls import reverse_lazy
+from dotenv import load_dotenv
+
+load_dotenv()#permite que eu armazene conteudos sensiveis como: senhas é chaves de uma API em um arquivo separado me dando uma maior segurança
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -133,9 +137,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 
 # Configurações de e-mail para enviar e-mails reais
+EMAIL_HOST_USER= 'marcelorochafilho04@gmail.com'
+EMAIL_HOST_PASSWORD= 'fcxj hprr phjf nsdq'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backend como SMTP
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
 EMAIL_USE_TLS = True  # Habilitar TLS
-EMAIL_HOST_USER = 'marcelorochafilho04@gmail.com'  # Seu e-mail
-EMAIL_HOST_PASSWORD = 'fcxj hprr phjf nsdq'  # Sua senha
+EMAIL_HOST_USER = os.environ.get('Email_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
+
