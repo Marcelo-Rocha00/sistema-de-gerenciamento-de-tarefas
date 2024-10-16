@@ -25,16 +25,16 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 
     #URL de formulario para redefinir a senha
-    path('login/redefinir/', auth_views.PasswordResetView.as_view(), name='senha_redifinir'),
+    path('login/redefinir/', auth_views.PasswordResetView.as_view(template_name ='gerenciamento_de_tarefa/password_reset_form.html'), name='senha_redifinir'),
 
     #URL que sera exibido quando o e-mail de recuperação for enviado
-    path('login/redefinir/enviado/', auth_views.PasswordResetDoneView.as_view(), name="senha_redifinir_enviada"),
+    path('login/redefinir/enviado/', auth_views.PasswordResetDoneView.as_view(template_name = 'gerenciamento_de_tarefa/password_reset_done.html'), name="senha_redifinir_enviada"),
 
     #URL que confirma a redifinição da senha(após o usuário clicar no link do e-mail)
-    path('login/redefinir/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='senha_redefinir_confirmar'),
+    path('login/redefinir/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='gerenciamento_de_tarefa/password_reset_confirm.html'), name='senha_redefinir_confirmar'),
 
     #URL que será exibido após a conclusão da redifinição da senha
-    path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(), name='senha_redefinir_concluida'),
+    path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='gerenciamento_de_tarefa/password_reset_complete.html'), name='senha_redefinir_concluida'),
 ] 
 
 
