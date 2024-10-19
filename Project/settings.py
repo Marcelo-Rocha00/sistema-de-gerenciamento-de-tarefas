@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+from dotenv  import load_dotenv
 
 load_dotenv()#permite que eu armazene conteudos sensiveis como: senhas é chaves de uma API em um arquivo separado me dando uma maior segurança
 
