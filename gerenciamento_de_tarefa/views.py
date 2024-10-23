@@ -30,7 +30,6 @@ def perfil_usuario(request):
     return render(request,'User/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
      , {'username': request.user.username, 'tasks': tasks} )# Envia um dicionário com o nome de usuário logado para o template
 
-
 def add_task(request):
     if request.method ==  'POST':
         title = request.POST.get('titulo')
