@@ -14,16 +14,20 @@
     <p>Tarefas atribuidas:</p>
     <ul>
         {% for task in tasks %}
-            <li>{{ task.titulo }} - {% if task.status %} - Concluída {% else %} Pendente {% endif %}</li>
+            <li>{{ task.titulo }}  {% if task.status %} - Concluída {% else %} - Pendente {% endif %} <br>
+                {% if task.id %}
+                <a href="{% url 'delete_task' task.id %}">Excluir tarefa</a>
+                {% endif %}
+
+            </li>
         {% empty %}
         <li>Não há tarefas atribuídas.</li>
     {% endfor %}
     </ul>
 
-    
     <a href="{% url 'add_task' %}">adicionar nova Tarefa</a>
+   
 
-    <!-- Link para logout -->
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Logout</button>

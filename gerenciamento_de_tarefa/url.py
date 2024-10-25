@@ -4,6 +4,7 @@ from django.contrib.auth.views import LogoutView
 from .views import taskViewSet
 from . import views
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LogoutView
 
 router = DefaultRouter() # Cria uma instância do roteador padrão
 router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 'task'
@@ -35,8 +36,11 @@ urlpatterns = [
 
     #URL que será exibido após a conclusão da redifinição da senha
     path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='gerenciamento_de_tarefa/password_reset_complete.html'), name='password_reset_complete'),
-    
-    path('add/', views.add_task, name='add_task')
+    #URL de adição de tarefas
+    path('add/', views.add_task, name='add_task'),
+
+    path('delete/<int:task_id>/', views.delete_task, name='delete_task')
+
 ] 
 
 

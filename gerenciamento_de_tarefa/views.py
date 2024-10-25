@@ -7,6 +7,7 @@ from django.views import generic
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm #importando o formulario personalizado com o e-mail
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
@@ -24,18 +25,25 @@ class Login(LoginView):#essa classe herda 'LoginView' padrão do jogo, que ja te
 
 @login_required#decoretor que para o usuario acessar a pagina de usuario é necessario estar logado
 def perfil_usuario(request):
-    tasks = Task.objects.all()
-    print(tasks)
-    # Chama a função 'render' para gerar uma resposta HTML
+    tasks = Task.objects.all().filter(usuario=request.user)
     return render(request,'User/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
      , {'username': request.user.username, 'tasks': tasks} )# Envia um dicionário com o nome de usuário logado para o template
 
+@login_required
 def add_task(request):
     if request.method ==  'POST':
         title = request.POST.get('titulo')
+        stats = request.POST.get('status') == 'on'
+        usuario_id = request.POST.get('usuario')
         if title:
-            Task.objects.create(titulo=title)
+            usuario = User.objects.get(id = usuario_id)
+            Task.objects.create(titulo=title, status=stats, usuario = usuario,)
         return redirect('usuario')
-    return render(request, 'User/add_task.html')
+    usuarios = User.objects.all()
+    return render(request, 'User/add_task.html', {'usuarios':usuarios })
 
 
+def delete_task(request, task_id):
+    task = Task.objects.get(id=task_id)
+    task.delete()
+    return redirect('usuario')

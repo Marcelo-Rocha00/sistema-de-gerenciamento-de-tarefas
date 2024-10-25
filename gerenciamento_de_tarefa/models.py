@@ -7,7 +7,7 @@ class Task(models.Model): #definindo um modelo pra task
     data_criação = models.DateTimeField(auto_now_add=True, blank=True)# data é hora da criação do pedido
     data_limite = models.DateTimeField( blank=True,null=True)# data é hora limite para a conclusão da tarefa
     status = models.BooleanField(default=False, blank=True)# Status da tarefa: True se concluida é False caso não esteja concluida ainda
-    atribuida_a = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,null=True ) # usuário ao qual a tarefa esta atribuida
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,null=True ) # usuário ao qual a tarefa esta atribuida
     
     def __str__(self):
         return self.titulo #retornando o título da tarefa como representação da instância

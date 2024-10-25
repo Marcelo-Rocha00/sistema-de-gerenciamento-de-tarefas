@@ -9,7 +9,18 @@
 <h1>Adicionar Tarefa</h1>
 <form method="POST">
     {% csrf_token %}
-    <input type="text" name="titulo" placeholder="Titulo da tarefa">
+    <input type="text" name="titulo" placeholder="Titulo da tarefa"> <br>
+    <label for="status">Status da Tarefa:</label>
+    <input type="checkbox" name="status"   {% if task.status %}checked{% endif %} ><br>
+
+    <label for="usuario">Selecionar o usuario:</label>
+    <select name="usuario" id="usuario" required>
+        <option value="">Selecione um usuário</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+        {% endfor %}
+    </select>
+
     <button type="submit">Adicionar</button>
 </form>
 
