@@ -35,6 +35,8 @@ urlpatterns = [
 
     #URL que será exibido após a conclusão da redifinição da senha
     path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='gerenciamento_de_tarefa/password_reset_complete.html'), name='password_reset_complete'),
+    
+    path('add/', views.add_task, name='add_task')
 ] 
 
 
