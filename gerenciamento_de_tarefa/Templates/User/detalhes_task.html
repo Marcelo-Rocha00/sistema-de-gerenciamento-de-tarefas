@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task.titulo }}</title>
+</head>
+<body>
+    <h1>Tarefa: {{ task.titulo }}</h1>
+    <p><strong>Descrição:</strong>{{ task.descrição }}</p>
+    <p><strong>Data Criação:</strong>{{ task.data_criação }}</p>
+    <p><strong>Data Limite:</strong>{{ task.data_limite }}</p>
+    <p><strong>Status:</strong>{% if task.status %} Concluída {% else %} Pendente {% endif %}</p>
+    
+    <form action="{% url 'usuario' %}" method="get" style="display:inline;">
+        <button type="submit">Voltar para lista de tarefas</button>
+    
+
+    
+</body>
+</html>

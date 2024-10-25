@@ -12,8 +12,18 @@
         {{form.as_p}}
         
         <button type="submit">Login</button>
-       <p>esqueceu a senha? <a href="{% url 'senha_redifinir' %}"> clique aqui para redefinir</a></p>
-        <p>não tem uma conta ainda? <a href="{% url 'registro'%}"> clique aqui para criar uma conta</a></p>
+        <p>Esqueceu a senha? <br>
+            <form action="{% url 'senha_redifinir' %}" method="get" style="display:inline;">
+                <button type="submit">Clique aqui para redefinir</button>
+            </form>
+        </p>
+        
+        <p>Não tem uma conta ainda? 
+            <form action="{% url 'registro' %}" method="get" style="display:inline;">
+                <button type="submit">Clique aqui para criar uma conta</button>
+            </form>
+        </p>
+        
     </form>
 </body>
 </html>
