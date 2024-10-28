@@ -63,3 +63,14 @@ def delete_task(request, task_id): # criando uma Função para deletar uma taref
 def detalhes_task(request, task_id):
     tasks = get_object_or_404(Task, id= task_id) # Busca a tarefa pelo ID
     return render(request, 'User/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
+
+def editar_tarefa(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    
+    if request.method == 'POST':
+        task.titulo = request.POST.get('title')
+        task.status = 'completed' in request.POST #atualiza o status com base na checkbox
+        task.save()
+        return redirect('usuario')
+    
+    return render(request, 'User/editar_tasks.html', {'task': task})

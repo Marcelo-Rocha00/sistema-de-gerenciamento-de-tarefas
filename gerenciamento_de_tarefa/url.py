@@ -40,10 +40,10 @@ urlpatterns = [
     path('add/', views.add_task, name='add_task'),
     #Url para deletar as tarefas
     path('delete/<int:task_id>/', views.delete_task, name='delete_task'),
-
+    #Url de uma pagina que exibe os detalhes das tarefas
     path('task/<int:task_id>', views.detalhes_task, name='detalhes_task'),
 
-
+    path('edit/<int:task_id>/',views.editar_tarefa, name='editar_task')
 ] 
 
 
