@@ -6,36 +6,37 @@
     <title>adicionar tarefas</title>
 </head>
 <body>
-<h1>Adicionar Tarefa</h1>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="titulo" placeholder="Titulo da tarefa" required> <br>
+    <h1>Adicionar Tarefa</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="titulo" placeholder="Titulo da tarefa" required> <br>
 
-    <textarea name="descrição" placeholder="Descrição da tarefa" rows="7" cols="50" required></textarea><br>
-    
-    <input type="date" name="data_criação" placeholder="Data de Criação" > <br>
-    
-    <input type="date" name="data_limite" placeholder="Data Limite" required> <br>
-    
-    <label for="status">Status da Tarefa:</label>
-    <input type="checkbox" name="status" {% if task.status %}checked{% endif %}><br>
-    
-    <label for="usuario">Selecionar o usuário:</label>
-    <select name="usuario" id="usuario" required>
-        <option value="">Selecione um usuário</option>
-        {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.username }}</option>
-        {% endfor %}
-    </select><br>
-    
+        <textarea name="descricao" placeholder="Descrição da tarefa" rows="7" cols="50" required></textarea><br>
+        
+        <input type="date" name="data_criacao" placeholder="Data de Criação" > <br>
+        
+        <input type="date" name="data_limite" placeholder="Data Limite" required> <br>
+        
+        <label for="status">Status da Tarefa:</label>
+        <input type="checkbox" name="status" {% if task.status %}checked{% endif %}><br>
+        
+        <label for="usuario">Selecionar o usuário:</label>
+        <select name="usuario" id="usuario" required>
+            <option value="">Selecione um usuário</option>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+            {% endfor %}
+        </select><br>
+        
 
-    <button type="submit">criar nova tarefa</button>
-</form>
+        <button type="submit">criar nova tarefa</button>
+    </form>
 
-<form action="{% url 'usuario' %}" method="get" style="display:inline;">
-    <button type="submit">Voltar para lista de tarefas</button>
+    <form action="{% url 'usuario' %}" method="get" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Voltar para lista de tarefas</button>
 
-</form>
+    </form>
 
   
 </body>

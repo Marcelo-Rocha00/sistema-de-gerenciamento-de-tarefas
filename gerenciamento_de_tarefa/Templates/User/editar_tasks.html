@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>editor de tarefa</title>
+    <title>Editor de Tarefa</title>
 </head>
 <body>
-    <h1>Editar tarefa</h1>
+    <h1>Editar Tarefa</h1>
+    
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="titulo" value="{{ task.titulo }}" placeholder="Titulo da tarefa">
+        
+        <input type="text" name="titulo" value="{{ task.titulo }}" placeholder="Título da tarefa" required>
         <br>
-        <label type="checkbox" name="completed" {% if task.status %}checked{% endif %}> concluida
+        
+        <label>
+            <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %}> Concluída
         </label>
         <br>
+        
         <button type="submit">Atualizar</button>
     </form>
 
     <a href="{% url 'usuario' %}">Voltar para a lista</a>
-
- 
 </body>
 </html>

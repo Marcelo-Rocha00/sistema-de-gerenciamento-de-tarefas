@@ -34,8 +34,8 @@ def add_task(request):# função para adicionar novas tarefas
     if request.method ==  'POST':# Verifica se a requisição é do tipo 'POST', é processa os dados do formulário
         title = request.POST.get('titulo')  # Obtém o título da tarefa
         stats = request.POST.get('status') == 'on'  # Verifica se a checkbox está marcada e define como True ou False
-        description = request.POST.get('descrição') # Obtém a descrição da tarefa
-        data_create = request.POST.get('data_criação') #Obtém a data de criação da tarefa
+        description = request.POST.get('descricao') # Obtém a descrição da tarefa
+        data_create = request.POST.get('data_criacao') #Obtém a data de criação da tarefa
         data_limit = request.POST.get('data_limite') # Obtém a data limite da tarefa
         usuario_id = request.POST.get('usuario') # Obtém o ID do usuário associado à tarefa
         if title: # Verifica se o titulo da tarefa não esta vazio
@@ -44,8 +44,8 @@ def add_task(request):# função para adicionar novas tarefas
         titulo=title,  # Define o título da tarefa
         status=stats,  # Define o status da tarefa (concluída ou pendente)
         usuario=usuario,  # Associa a tarefa ao usuário obtido
-        descrição=description,  # Define a descrição da tarefa
-        data_criação=data_create,  # Define a data de criação da tarefa
+        descricao=description,  # Define a descrição da tarefa
+        data_criacao=data_create,  # Define a data de criação da tarefa
         data_limite=data_limit,  # Define a data limite da tarefa
     )
         return redirect('usuario')# Redireciona para pagina de usuario apos a criação da tarefa
@@ -68,9 +68,13 @@ def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     
     if request.method == 'POST':
-        task.titulo = request.POST.get('title')
-        task.status = 'completed' in request.POST #atualiza o status com base na checkbox
-        task.save()
-        return redirect('usuario')
-    
+        titulo = request.POST.get('titulo')
+        status = 'status' in request.POST  # Verifica se o checkbox foi marcado
+
+        if titulo:
+            task.titulo = titulo
+            task.status = status
+            task.save()
+            return redirect('usuario')  # Redireciona após salvar
+        
     return render(request, 'User/editar_tasks.html', {'task': task})
