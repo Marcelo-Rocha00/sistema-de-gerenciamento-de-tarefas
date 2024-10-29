@@ -26,19 +26,21 @@ class Login(LoginView):#essa classe herda 'LoginView' padrão do jogo, que ja te
 
 @login_required#decoretor que para o usuario acessar a pagina de usuario é necessario estar logado
 def perfil_usuario(request):
-    tasks = Task.objects.filter(usuario=request.user)# Filtra todas as tarefas associadas ao usuário atualmente autenticado.
     form = FiltroForms(request.POST or None)
+    tasks = Task.objects.filter(usuario=request.user)# Filtra todas as tarefas associadas ao usuário atualmente autenticado.
     
+    status_selecionado = None
     
     if form.is_valid():
         status_selecionado = form.cleaned_data['status']
         if status_selecionado == 'true':
-            tasks = Task.objects.filter(status=True)
+            tasks = tasks.filter(status=True)  # Filtra tarefas concluídas do usuário
         else:
-            tasks = Task.objects.filter(status=False)    
+            tasks = tasks.filter(status=False)  # Filtra tarefas pendentes do usuário
+
     
     return render(request,'User/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
-     , {'username': request.user.username, 'tasks': tasks, 'form': form,} )# Envia um dicionário com o nome de usuário logado para o template
+     , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado,} )# Envia um dicionário com o nome de usuário logado para o template
 
 @login_required
 def add_task(request):# função para adicionar novas tarefas

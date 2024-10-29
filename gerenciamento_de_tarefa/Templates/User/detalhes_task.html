@@ -12,7 +12,7 @@
     <p><strong>Data Criação:</strong>{{ task.data_criacao }}</p>
     <p><strong>Data Limite:</strong>{{ task.data_limite }}</p>
     <p><strong>Status:</strong>{% if task.status %} Concluída {% else %} Pendente {% endif %}</p>
-    
+    <p><strong>usuario:</strong>{{ task.usuario }}</p>
     <form action="{% url 'usuario' %}" method="get" style="display:inline;">
         {% csrf_token %}
         <button type="submit">Voltar para lista de tarefas</button>
