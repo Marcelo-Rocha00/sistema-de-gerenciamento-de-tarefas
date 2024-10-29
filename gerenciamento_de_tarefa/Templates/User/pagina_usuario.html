@@ -12,7 +12,21 @@
     <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
     <p>Nome de Usuário: {{ username }}</p>
     
+    
+
+    <form action="{% url 'usuario' %}" method="post">
+        {% csrf_token %}
+        <label for="status">Filtrar por status:</label>
+        <select name="status" id="status">
+            <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
+            <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
     <p>Tarefas atribuidas:</p>
+
+
     <ul>
         {% for task in tasks %}
             <li>

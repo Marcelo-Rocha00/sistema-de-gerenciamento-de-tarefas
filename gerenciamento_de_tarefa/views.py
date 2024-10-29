@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm #importando o formulario personalizado com o e-mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .forms import FiltroForms
 
 
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
@@ -26,8 +27,18 @@ class Login(LoginView):#essa classe herda 'LoginView' padrão do jogo, que ja te
 @login_required#decoretor que para o usuario acessar a pagina de usuario é necessario estar logado
 def perfil_usuario(request):
     tasks = Task.objects.filter(usuario=request.user)# Filtra todas as tarefas associadas ao usuário atualmente autenticado.
+    form = FiltroForms(request.POST or None)
+    
+    
+    if form.is_valid():
+        status_selecionado = form.cleaned_data['status']
+        if status_selecionado == 'true':
+            tasks = Task.objects.filter(status=True)
+        else:
+            tasks = Task.objects.filter(status=False)    
+    
     return render(request,'User/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
-     , {'username': request.user.username, 'tasks': tasks} )# Envia um dicionário com o nome de usuário logado para o template
+     , {'username': request.user.username, 'tasks': tasks, 'form': form,} )# Envia um dicionário com o nome de usuário logado para o template
 
 @login_required
 def add_task(request):# função para adicionar novas tarefas
@@ -67,24 +78,25 @@ def detalhes_task(request, task_id):
 @login_required
 def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    usuarios = User.objects.all()
     
     if request.method == 'POST':
         titulo = request.POST.get('titulo')
         status = 'status' in request.POST  # Verifica se o checkbox foi marcado
         descricao = request.POST.get('descricao')
-        data_create = request.POST.get('data_criacao')
         data_limit = request.POST.get('data_limite')
         usuario_id = request.POST.get('usuario')
         
-        if titulo:
+        print(f"Usuario ID: {usuario_id}")
+        
+        if titulo and usuario_id:
             usuario = User.objects.get(id = usuario_id)
             task.titulo = titulo
             task.status = status
             task.descricao = descricao
-            task.data_criacao = data_create
             task.data_limite = data_limit
-            usuario=usuario
+            task.usuario=usuario
             task.save()
             return redirect('usuario')  # Redireciona após salvar
         
-    return render(request, 'User/editar_tasks.html', {'task': task})
+    return render(request, 'User/editar_tasks.html', {'task': task, 'usuarios':usuarios})
