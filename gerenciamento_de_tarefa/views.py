@@ -41,12 +41,12 @@ def add_task(request):# função para adicionar novas tarefas
         if title: # Verifica se o titulo da tarefa não esta vazio
             usuario = User.objects.get(id = usuario_id)## Obtém o objeto do usuário correspondente ao ID fornecido
             Task.objects.create(
-        titulo=title,  # Define o título da tarefa
-        status=stats,  # Define o status da tarefa (concluída ou pendente)
-        usuario=usuario,  # Associa a tarefa ao usuário obtido
-        descricao=description,  # Define a descrição da tarefa
-        data_criacao=data_create,  # Define a data de criação da tarefa
-        data_limite=data_limit,  # Define a data limite da tarefa
+            titulo=title,  # Define o título da tarefa
+            status=stats,  # Define o status da tarefa (concluída ou pendente)
+            usuario=usuario,  # Associa a tarefa ao usuário obtido
+            descricao=description,  # Define a descrição da tarefa
+            data_criacao=data_create,  # Define a data de criação da tarefa
+            data_limite=data_limit,  # Define a data limite da tarefa
     )
         return redirect('usuario')# Redireciona para pagina de usuario apos a criação da tarefa
     usuarios = User.objects.all() # Obtém todos os usuários do banco 
@@ -64,16 +64,26 @@ def detalhes_task(request, task_id):
     tasks = get_object_or_404(Task, id= task_id) # Busca a tarefa pelo ID
     return render(request, 'User/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
 
+@login_required
 def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     
     if request.method == 'POST':
         titulo = request.POST.get('titulo')
         status = 'status' in request.POST  # Verifica se o checkbox foi marcado
-
+        descricao = request.POST.get('descricao')
+        data_create = request.POST.get('data_criacao')
+        data_limit = request.POST.get('data_limite')
+        usuario_id = request.POST.get('usuario')
+        
         if titulo:
+            usuario = User.objects.get(id = usuario_id)
             task.titulo = titulo
             task.status = status
+            task.descricao = descricao
+            task.data_criacao = data_create
+            task.data_limite = data_limit
+            usuario=usuario
             task.save()
             return redirect('usuario')  # Redireciona após salvar
         

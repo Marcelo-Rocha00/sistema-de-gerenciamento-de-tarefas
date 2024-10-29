@@ -17,7 +17,7 @@ urlpatterns = [
     path('registro/', views.SignUP.as_view(), name='registro'), 
 
     #URL de acesso a pagina de login
-    path('login/', views.Login.as_view(), name = 'login'), 
+    path('', views.Login.as_view(), name = 'login'), 
 
     #URL para a pagina de usuario
     path('usuario/', views.perfil_usuario, name = 'usuario' ),
