@@ -12,19 +12,21 @@
         {{form.as_p}}
         
         <button type="submit">Login</button>
-        
-        <p>Esqueceu a senha? <br>
-            <form action="{% url 'senha_redifinir' %}" method="get" style="display:inline;">
-                <button type="submit">Clique aqui para redefinir</button>
-            </form>
-        </p>
-        
-        <p>Não tem uma conta ainda? 
-            <form action="{% url 'registro' %}" method="get" style="display:inline;">
-                <button type="submit">Clique aqui para criar uma conta</button>
-            </form>
-        </p>
-        
     </form>
+    <p>Esqueceu a senha? <br>
+        <form action="{% url 'senha_redifinir' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Clique aqui para redefinir</button>
+        </form>
+    </p>
+        
+    <p>Não tem uma conta ainda? 
+        <form action="{% url 'registro' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Clique aqui para criar uma conta</button>
+        </form>
+    </p>
+        
+    
 </body>
 </html>
