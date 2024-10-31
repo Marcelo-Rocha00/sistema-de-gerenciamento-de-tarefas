@@ -48,7 +48,6 @@ def add_task(request):# função para adicionar novas tarefas
         title = request.POST.get('titulo')  # Obtém o título da tarefa
         stats = request.POST.get('status') == 'on'  # Verifica se a checkbox está marcada e define como True ou False
         description = request.POST.get('descricao') # Obtém a descrição da tarefa
-        data_create = request.POST.get('data_criacao') #Obtém a data de criação da tarefa
         data_limit = request.POST.get('data_limite') # Obtém a data limite da tarefa
         usuario_id = request.POST.get('usuario') # Obtém o ID do usuário associado à tarefa
         if title: # Verifica se o titulo da tarefa não esta vazio
@@ -58,7 +57,6 @@ def add_task(request):# função para adicionar novas tarefas
             status=stats,  # Define o status da tarefa (concluída ou pendente)
             usuario=usuario,  # Associa a tarefa ao usuário obtido
             descricao=description,  # Define a descrição da tarefa
-            data_criacao=data_create,  # Define a data de criação da tarefa
             data_limite=data_limit,  # Define a data limite da tarefa
     )
         return redirect('usuario')# Redireciona para pagina de usuario apos a criação da tarefa
