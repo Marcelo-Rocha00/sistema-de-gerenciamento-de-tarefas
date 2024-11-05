@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gerenciamento_de_tarefa',
     'rest_framework',
-    'accounts'
+    'accounts',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,9 +77,7 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'usuario'
 
-LOGIN_URL = '/login/'  # Define a URL de login personalizada para o django não utilizar a url padrão de login
 
 WSGI_APPLICATION = 'Project.wsgi.application'
 
@@ -130,6 +129,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -144,6 +149,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backen
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
 EMAIL_USE_TLS = True  # Habilitar TLS
-EMAIL_HOST_USER = os.environ.get('Email_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
 

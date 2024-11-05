@@ -1,10 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from django.contrib.auth.views import LogoutView
 from .views import taskViewSet
 from . import views
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import LogoutView
+
+
 
 router = DefaultRouter() # Cria uma instância do roteador padrão
 router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 'task'
@@ -13,37 +12,20 @@ urlpatterns = [
      #uma rota url para acesso da API
     path('api/', include(router.urls)),
 
-    #URL de acesso a pagina de registro
-    path('registro/', views.SignUP.as_view(), name='registro'), 
-
-    #URL de acesso a pagina de login
-    path('login/', views.Login.as_view(), name = 'login'), 
-
     #URL para a pagina de usuario
-    path('usuario/', views.perfil_usuario, name = 'usuario' ),
+    path('', views.perfil_usuario, name = 'usuario' ),
 
-    #URL para a pagina de logout, apos acessar a pagina logout o usuario sera redirecionado para a pagina login
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
-
-    #URL de formulario para redefinir a senha
-    path('login/redefinir/', auth_views.PasswordResetView.as_view(template_name ='User/password_reset_form.html'), name='senha_redifinir'),
-
-    #URL que sera exibido quando o e-mail de recuperação for enviado
-    path('login/redefinir/enviado/', auth_views.PasswordResetDoneView.as_view(template_name = 'User/password_reset_done.html'), name="password_reset_done"),
-
-    #URL que confirma a redifinição da senha(após o usuário clicar no link do e-mail)
-    path('login/redefinir/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='User/password_reset_confirm.html'), name='password_reset_confirm'),
-
-    #URL que será exibido após a conclusão da redifinição da senha
-    path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='User/password_reset_complete.html'), name='password_reset_complete'),
     #URL de adição de tarefas
     path('add/', views.add_task, name='add_task'),
+
     #Url para deletar as tarefas
     path('delete/<int:task_id>/', views.delete_task, name='delete_task'),
 
+    #Url de uma pagina que exibe os detalhes das tarefas
     path('task/<int:task_id>', views.detalhes_task, name='detalhes_task'),
 
-
+    #URL para edição de tarefas
+    path('edit/<int:task_id>/',views.editar_tarefa, name='editar_task')
 ] 
 
 

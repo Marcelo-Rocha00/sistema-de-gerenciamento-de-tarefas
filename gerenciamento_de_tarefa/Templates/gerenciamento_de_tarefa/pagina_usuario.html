@@ -6,21 +6,47 @@
     <title>perfil do usuario</title>
 </head>
 <body>
+    {% csrf_token %}
     <h1>Perfil do Usuário</h1>
     
     <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
     <p>Nome de Usuário: {{ username }}</p>
+
+    <form method="GET" action="{% url 'usuario' %}" >
+        <input type="text" placeholder="Buscar..." name="titulo" value="{{ titulo_busca }}">
+        <button type="submit">Pesquisar</button>
+    </form>
+
     
+    <form action="{% url 'usuario' %}" method="post">
+        {% csrf_token %}
+        <label for="status">Filtrar por status:</label>
+
+        <select name="status" id="status">
+            <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
+            <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
     <p>Tarefas atribuidas:</p>
+
+
     <ul>
         {% for task in tasks %}
             <li>
                 <a href="{% url 'detalhes_task' task.id %}">{{ task.titulo }}</a>
                 {% if task.status %} - Concluída {% else %} - Pendente {% endif %} 
                 {% if task.id %}
+
                 <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit">Excluir</button>
+                </form>
+
+                <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">editar</button>
                 </form>
                 {% endif %}
 
@@ -32,12 +58,14 @@
 
         
     <form action="{% url 'add_task' %}" method="get" style="display:inline;">
+        {% csrf_token %}
         <button type="submit">Adicionar nova Tarefa</button>
     </form>
    
 
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
+        
         <button type="submit">Logout</button>
     </form>
 </body>
