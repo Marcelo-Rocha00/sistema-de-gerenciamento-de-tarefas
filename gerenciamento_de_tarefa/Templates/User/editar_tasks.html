@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Tarefa</title>
+</head>
+<body>
+    <h1>Editar Tarefa</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <input type="text" name="titulo" value="{{ task.titulo }}" placeholder="Título da tarefa" required>
+        <br>
+        <br>
+        <textarea name="descricao" placeholder="Descrição da tarefa" rows="7" cols="50" required>{{ task.descricao }}</textarea>
+        <br>
+
+        <p><strong>Data Criação:</strong>{{ task.data_criacao }}</p>
+       
+
+        <input type="date" name="data_limite" value="{{ task.data_limite|date:'Y-m-d' }}" required>
+        <br>
+
+        <label for="usuario">Selecionar o usuário:</label>
+        <select name="usuario" id="usuario" required>
+            <option value="">Selecione um usuário</option>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}" {% if usuario.id == task.usuario.id %}selected{% endif %}>{{ usuario.username }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label>
+            <input type="checkbox" name="status" {% if task.completed %}checked{% endif %}> Concluída
+        </label>
+        <br>
+
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <a href="{% url 'usuario' %}">Voltar para a lista</a>
+</body>
+</html>

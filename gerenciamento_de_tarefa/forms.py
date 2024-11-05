@@ -27,3 +27,11 @@ class CustomUserCreationForm(UserCreationForm): #criando um formulario personali
         # Retornamos a instância do usuário, que pode ser utilizada após o salvamento
         return user
     
+    
+class FiltroForms(forms.Form):
+    STATUS_CHOICES = [
+        ('true','Verdadeiro'),
+        ('false','Falso')
+    ]
+    
+    status = forms.ChoiceField(choices=STATUS_CHOICES, required=True)
