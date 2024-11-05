@@ -33,7 +33,7 @@ def perfil_usuario(request):
             tasks = tasks.filter(status=False)  # Filtra tarefas pendentes do usuário
 
     
-    return render(request,'gerenciamento_de_tarefa/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
+    return render(request,'Tasks/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
      , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca} )# Envia um dicionário com o nome de usuário logado para o template
 
 @login_required
@@ -56,7 +56,7 @@ def add_task(request):# função para adicionar novas tarefas
         return redirect('usuario')# Redireciona para pagina de usuario apos a criação da tarefa
     usuarios = User.objects.all() # Obtém todos os usuários do banco 
     # Renderiza o template 'add_task.html', passando a lista de usuários como contexto
-    return render(request, 'gerenciamento_de_tarefa/add_task.html', {'usuarios':usuarios })
+    return render(request, 'Tasks/add_task.html', {'usuarios':usuarios })
 
 
 def delete_task(request, task_id): # criando uma Função para deletar uma tarefa específica com base no ID
@@ -67,7 +67,7 @@ def delete_task(request, task_id): # criando uma Função para deletar uma taref
 
 def detalhes_task(request, task_id):
     tasks = get_object_or_404(Task, id= task_id) # Busca a tarefa pelo ID
-    return render(request, 'gerenciamento_de_tarefa/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
+    return render(request, 'Tasks/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
 
 @login_required
 def editar_tarefa(request, task_id):
@@ -93,6 +93,6 @@ def editar_tarefa(request, task_id):
             task.save()
             return redirect('usuario')  # Redireciona após salvar
         
-    return render(request, 'gerenciamento_de_tarefa/editar_tasks.html', {'task': task, 'usuarios':usuarios})
+    return render(request, 'Tasks/editar_tasks.html', {'task': task, 'usuarios':usuarios})
 
 
