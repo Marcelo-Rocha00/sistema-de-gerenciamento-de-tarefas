@@ -6,18 +6,38 @@
     <title>Registro</title>
 </head>
 <body>
-    <h1>Registro</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <button type="submit">Registrar</button>
-
-
-
-        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
-        
+    <h2>Registrar</h2>
+<form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+    <div>
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
     
-    </form>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div>
+        <label for="id_password1">Senha:</label>
+        <input type="password" id="id_password1" name="password1" required>
+    </div>
+
+    <div>
+        <label for="id_password2">Confirmar Senha:</label>
+        <input type="password" id="id_password2" name="password2" required>
+    </div>
+    
+    <button type="submit">Registrar</button>
+</form>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 </body>
 </html>
