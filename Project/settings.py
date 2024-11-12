@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'gerenciamento_de_tarefa',
     'rest_framework',
     'accounts',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
