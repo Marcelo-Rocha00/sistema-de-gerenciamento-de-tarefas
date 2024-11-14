@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from rest_framework import viewsets
 from .models import Task
 from .serializers import taskSerializer
@@ -10,9 +13,12 @@ from .forms import FiltroForms
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
     queryset = Task.objects.all() # Define a queryset como todas as instâncias do modelo 'task'
     serializer_class = taskSerializer # Define o serializer que será usado para converter dados do modelo 'task
-        
-
-@login_required#decoretor que para o usuario acessar a pagina de usuario é necessario estar logado
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]    
+    
+@api_view(['GET', 'POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def perfil_usuario(request):
     form = FiltroForms(request.POST or None)
     tasks = Task.objects.filter(usuario=request.user)# Filtra todas as tarefas associadas ao usuário atualmente autenticado.
@@ -36,7 +42,9 @@ def perfil_usuario(request):
     return render(request,'gerenciamento_de_tarefa/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
      , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca} )# Envia um dicionário com o nome de usuário logado para o template
 
-@login_required
+@api_view(['GET', 'POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def add_task(request):# função para adicionar novas tarefas
     if request.method ==  'POST':# Verifica se a requisição é do tipo 'POST', é processa os dados do formulário
         title = request.POST.get('titulo')  # Obtém o título da tarefa
@@ -58,18 +66,43 @@ def add_task(request):# função para adicionar novas tarefas
     # Renderiza o template 'add_task.html', passando a lista de usuários como contexto
     return render(request, 'gerenciamento_de_tarefa/add_task.html', {'usuarios':usuarios })
 
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from .models import Task
 
-def delete_task(request, task_id): # criando uma Função para deletar uma tarefa específica com base no ID
-    task = Task.objects.get(id=task_id) # obtem a tarefa com base no 'ID' fornecido
-    task.delete() # Deleta a tarefa encontrada
-    return redirect('usuario')# Redireciona para a página do usuário após deletar a tarefa
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_task(request, task_id):
+    try:
+        # Obtém a tarefa com o ID fornecido
+        task = Task.objects.get(id=task_id)
+        
+        # Deleta a tarefa
+        task.delete()
+        
+        # Retorna uma resposta de sucesso
+        return Response({'message': 'Tarefa excluída com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
 
+    except Task.DoesNotExist:
+        # Se a tarefa não for encontrada
+        return Response({'error': 'Tarefa não encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
+   
+
+@api_view(['GET', 'POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def detalhes_task(request, task_id):
     tasks = get_object_or_404(Task, id= task_id) # Busca a tarefa pelo ID
     return render(request, 'gerenciamento_de_tarefa/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
 
-@login_required
+@api_view(['GET', 'POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     usuarios = User.objects.all()

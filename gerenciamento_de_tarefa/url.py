@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     #URL para a pagina de usuario
-    path('', views.perfil_usuario, name = 'usuario' ),
+    path('usuario/', views.perfil_usuario, name = 'usuario' ),
 
     #URL de adição de tarefas
     path('add/', views.add_task, name='add_task'),

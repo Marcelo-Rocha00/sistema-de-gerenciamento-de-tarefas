@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import logout
@@ -6,11 +6,13 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from rest_framework.authtoken.models import Token
+from django.http import JsonResponse
 
 class SignUp(View):
     def get(self, request):
         form = UserCreationForm()
-        return render(request, 'accounts/register.html', {'form':form})
+        return render(request, 'registration/register.html', {'form':form})
     
     def post(self, request):
         
@@ -23,7 +25,7 @@ class SignUp(View):
         
         if password1 != password1:
             messages.error(request, 'As senhas não coincidem.')
-            return render(request, 'accounts/register.html', {'form': form})
+            return render(request, 'registration/register.html', {'form': form})
         
         
         if form.is_valid():
@@ -41,22 +43,31 @@ class SignUp(View):
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
                     
-        return render(request, 'accounts/register.html', {'form':form})
-    
+        return render(request, 'registration/register.html', {'form':form})
+
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        
+
         if user is not None:
+            # Login tradicional (se você estiver utilizando)
             login(request, user)
-            return redirect('/')
+
+            # Gerar ou obter Token de autenticação
+            token, created = Token.objects.get_or_create(user=user)
+
+            # Retornar o token como resposta JSON (útil para APIs)
+            return JsonResponse({'token': token.key})
+
         else:
-            messages.error(request, 'Usuario ou senhas incorretos')
-            return render(request, 'accounts/login.html')
-        
-    return render(request, 'accounts/login.html')
+            messages.error(request, 'Usuário ou senha incorretos')
+            return render(request, 'registration/login.html')
+
+    return render(request, 'registration/login.html')
 
 def logout_view(request):
     logout(request)

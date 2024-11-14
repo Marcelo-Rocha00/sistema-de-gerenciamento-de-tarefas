@@ -152,3 +152,12 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # Recupera o nome de usuári
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
 
 #configuração para autenticação via token
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
