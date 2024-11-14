@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+    
+        <div>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div><br>
+        
+        <button type="submit">Login</button>
+    </form><br>
+    <span>Esqueceu a senha?:</span>
+    <form action="{% url 'senha_redifinir' %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Clique aqui para redefinir</button>
+    </form>
+    <br>
+    <br>
+
+        
+    <span>Não tem uma conta ainda?: </span>
+    <form action="{% url 'signup' %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Clique aqui para criar uma conta</button>
+    </form>
+    
+        
+    
+</body>
+</html>
