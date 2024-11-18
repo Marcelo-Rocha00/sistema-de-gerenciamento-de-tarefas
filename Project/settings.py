@@ -152,16 +152,3 @@ EMAIL_USE_TLS = True  # Habilitar TLS
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
 
-<<<<<<< HEAD
-#configuração para autenticação via token
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-}
-=======
->>>>>>> parent of 067071a (criando um diretorio templates)
