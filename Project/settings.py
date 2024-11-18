@@ -64,7 +64,7 @@ ROOT_URLCONF = 'Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,6 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configurações de e-mail para enviar e-mails reais
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backend como SMTP
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
@@ -151,6 +152,7 @@ EMAIL_USE_TLS = True  # Habilitar TLS
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
 
+<<<<<<< HEAD
 #configuração para autenticação via token
 
 REST_FRAMEWORK = {
@@ -161,3 +163,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+=======
+>>>>>>> parent of 067071a (criando um diretorio templates)
