@@ -6,8 +6,11 @@
     <title>Document</title>
 
 <body>
+
+
+   
         <h1>Adicionar Tarefa</h1>
-        <form id= "taskForm" method="POST">
+        <form method="POST">
             {% csrf_token %}
             <input type="text" name="titulo" placeholder="Titulo da tarefa" required> <br>
 
@@ -25,64 +28,15 @@
                     <option value="{{ usuario.id }}">{{ usuario.username }}</option>
                 {% endfor %}
             </select><br>
-        
-                
-
-           
             <button type="submit">criar nova tarefa</button>
-    </form> <br>
 
-    
-        <form action="{% url 'usuario' %}" method="get" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Voltar para lista de tarefas</button>
+            <br>
+            <form action="{% url 'usuario' %}" method="get" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Voltar para lista de tarefas</button>
 
-    </form>
-    
-    <script>
-        document.getElementById("taskForm").addEventListener("submit", async function(event) {
-            event.preventDefault();  // Impede o envio do formulário padrão
-
-            const token = localStorage.getItem("token");  // Obtém o token armazenado no localStorage
-
-            if (!token) {  // Verifica se o token existe
-                alert("Usuário não autenticado. Por favor, faça login.");
-                window.location.href = "login.html";  // Redireciona para a página de login caso não haja token
-                return;
-            }
-
-            // Coleta os dados do formulário
-            const formData = new FormData(event.target);
-            const data = {
-                titulo: formData.get("titulo"),
-                descricao: formData.get("descrição"),
-                data_limite: formData.get("data_limite"),
-                status: formData.get("status") === "on",  // Converte o valor do checkbox para booleano
-                usuario: formData.get("usuario")
-            };
-
-            // Envia os dados para a API via fetch
-            const response = await fetch("http://127.0.0.1:8000/add/", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Token ${token}`,  // Passa o token na header de autorização
-                    "Content-Type": "application/json"  // Define o conteúdo da requisição como JSON
-                },
-                body: JSON.stringify(data)  // Converte os dados para JSON
-            });
-
-            if (response.ok) {
-                alert("Tarefa adicionada com sucesso!");  // Exibe mensagem de sucesso
-                window.location.href = "pagina_usuario.html";  // Redireciona para a página do usuário
-            } else {
-                alert("Erro ao adicionar tarefa.");  // Exibe mensagem de erro caso a requisição falhe
-            }
-        });
-    </script>
-
+            </form>
+        </form>
   
-
-
-    
 </body>
 </html>

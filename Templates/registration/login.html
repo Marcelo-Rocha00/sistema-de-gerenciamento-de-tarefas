@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form id="loginForm" method="post">
+    <form method="post">
         {% csrf_token %}
     
         <div>
@@ -21,7 +21,6 @@
         
         <button type="submit">Login</button>
     </form><br>
-    
     <span>Esqueceu a senha?:</span>
     <form action="{% url 'senha_redifinir' %}" method="POST" style="display:inline;">
         {% csrf_token %}
@@ -30,50 +29,14 @@
     <br>
     <br>
 
+        
     <span>Não tem uma conta ainda?: </span>
     <form action="{% url 'signup' %}" method="POST" style="display:inline;">
         {% csrf_token %}
         <button type="submit">Clique aqui para criar uma conta</button>
     </form>
+    
         
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();  // Impede o envio padrão do formulário
-            
-            // Obtém os valores dos campos do formulário
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-        
-            // Realiza a requisição para a API de autenticação
-            const response = await fetch('/api-token-auth/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
-            });
-        
-            // Verifica se a resposta foi bem-sucedida
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token;  // O token retornado pela API
-        
-                // Armazena o token no localStorage para usar em futuras requisições
-                localStorage.setItem('authToken', token);
-        
-                // Redireciona o usuário após o login bem-sucedido
-                window.location.href = '{% url "usuario" %}';  // Ou qualquer outra página após o login
-            } else {
-                // Se o login falhar, exibe uma mensagem de erro
-                alert('Usuário ou senha incorretos.');
-            }
-        });
-        
-    </script>
     
 </body>
 </html>

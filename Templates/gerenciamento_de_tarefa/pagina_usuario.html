@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário</title>
+    <title>perfil do usuario</title>
 </head>
 <body>
     {% csrf_token %}
     <h1>Perfil do Usuário</h1>
     
+    <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
     <p>Nome de Usuário: {{ username }}</p>
 
     <form method="GET" action="{% url 'usuario' %}" >
@@ -16,6 +17,7 @@
         <button type="submit">Pesquisar</button>
     </form>
 
+    
     <form action="{% url 'usuario' %}" method="post">
         {% csrf_token %}
         <label for="status">Filtrar por status:</label>
@@ -27,53 +29,44 @@
         <button type="submit">Filtrar</button>
     </form>
 
-    <p>Tarefas atribuídas:</p>
+    <p>Tarefas atribuidas:</p>
+
 
     <ul>
         {% for task in tasks %}
             <li>
                 <a href="{% url 'detalhes_task' task.id %}">{{ task.titulo }}</a>
                 {% if task.status %} - Concluída {% else %} - Pendente {% endif %} 
+                {% if task.id %}
+
                 <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
                     {% csrf_token %}
-                    <button type="button" onclick="deleteTask({{ task.id }})">Excluir</button>
+                    <button type="submit">Excluir</button>
                 </form>
+
+                <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">editar</button>
+                </form>
+                {% endif %}
+
             </li>
         {% empty %}
         <li>Não há tarefas atribuídas.</li>
-        {% endfor %}
+    {% endfor %}
     </ul>
 
+        
     <form action="{% url 'add_task' %}" method="get" style="display:inline;">
         {% csrf_token %}
         <button type="submit">Adicionar nova Tarefa</button>
     </form>
+   
 
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
+        
         <button type="submit">Logout</button>
     </form>
-
-    <script>
-        const token = localStorage.getItem('auth_token');  // Recupera o token
-        console.log("Token recuperado:", token);  // Verifique se o token está correto
-
-
-        async function deleteTask(taskId) {
-            const response = await fetch(`http://127.0.0.1:8000/api/tasks/${taskId}/`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Token ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                alert('Tarefa excluída com sucesso!');
-                location.reload();  // Recarrega a página para atualizar a lista
-            } else {
-                alert('Erro ao excluir tarefa');
-            }
-        }
-    </script>
 </body>
 </html>

@@ -144,6 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configurações de e-mail para enviar e-mails reais
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backend como SMTP
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
