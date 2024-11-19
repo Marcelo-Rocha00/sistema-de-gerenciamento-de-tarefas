@@ -6,8 +6,7 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from rest_framework.authtoken.models import Token
-from django.http import JsonResponse
+
 
 class SignUp(View):
     def get(self, request):
@@ -54,15 +53,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Login tradicional (se você estiver utilizando)
             login(request, user)
-
-            # Gerar ou obter Token de autenticação
-            token, created = Token.objects.get_or_create(user=user)
-
-            # Retornar o token como resposta JSON (útil para APIs)
-            return JsonResponse({'token': token.key})
-
+            
+            return redirect('/')
         else:
             messages.error(request, 'Usuário ou senha incorretos')
             return render(request, 'registration/login.html')

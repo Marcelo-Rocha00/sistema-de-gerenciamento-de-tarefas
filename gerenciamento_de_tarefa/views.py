@@ -72,6 +72,7 @@ def detalhes_task(request, task_id):
     return render(request, 'gerenciamento_de_tarefa/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
 
 @login_required
+@login_required
 def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     usuarios = User.objects.all()
