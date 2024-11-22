@@ -2,13 +2,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import taskViewSet
 from . import views
-
-
+from rest_framework.authtoken import views as auth_views
 
 router = DefaultRouter() # Cria uma instância do roteador padrão
 router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 'task'
 
 urlpatterns = [
+    
      #uma rota url para acesso da API
     path('api/', include(router.urls)),
 
