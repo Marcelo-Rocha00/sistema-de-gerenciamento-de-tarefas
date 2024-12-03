@@ -20,5 +20,5 @@ urlpatterns = [
     #URL que será exibido após a conclusão da redifinição da senha
     path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_completa'),
     
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    
 ]

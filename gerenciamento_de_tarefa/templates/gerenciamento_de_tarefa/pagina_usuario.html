@@ -17,9 +17,11 @@
         <button type="submit">Pesquisar</button>
     </form>
 
+    
     <form action="{% url 'usuario' %}" method="post">
         {% csrf_token %}
         <label for="status">Filtrar por status:</label>
+
         <select name="status" id="status">
             <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
             <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
@@ -36,6 +38,7 @@
                 <a href="{% url 'detalhes_task' task.id %}">{{ task.titulo }}</a>
                 {% if task.status %} - Concluída {% else %} - Pendente {% endif %} 
                 {% if task.id %}
+
                 <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit">Excluir</button>

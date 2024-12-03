@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import taskViewSet
 from . import views
-from rest_framework.authtoken import views as auth_views
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter() # Cria uma instância do roteador padrão
 router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 'task'
@@ -25,7 +26,11 @@ urlpatterns = [
     path('task/<int:task_id>', views.detalhes_task, name='detalhes_task'),
 
     #URL para edição de tarefas
-    path('edit/<int:task_id>/',views.editar_tarefa, name='editar_task')
+    path('edit/<int:task_id>/',views.editar_tarefa, name='editar_task'),
+    
+    #endepoints para obter e reiniciar o token jwt
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] 
 
 
