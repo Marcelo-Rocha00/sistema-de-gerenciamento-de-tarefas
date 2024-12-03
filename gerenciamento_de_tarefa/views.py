@@ -98,4 +98,9 @@ def editar_tarefa(request, task_id):
         
     return render(request, 'gerenciamento_de_tarefa/editar_tasks.html', {'task': task, 'usuarios':usuarios})
 
+def busca_tarefa(request):
+    busca = request.GET.get('query', '')
+    resultado = Task.objects.filter()
+    
+    return render(request, 'User/pagina_usuario.html', {'busca': busca})
 
