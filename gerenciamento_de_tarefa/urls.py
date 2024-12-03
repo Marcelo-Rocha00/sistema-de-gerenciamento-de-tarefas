@@ -1,8 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SignUp, login_view, logout_view
 from django.contrib.auth import views as auth_views
-from .views import taskViewSet
+from .views import taskViewSet, SignUp, logout_view , login_view
 from . import views
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -12,7 +11,17 @@ router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 't
 
 urlpatterns = [
     
-     #uma rota url para acesso da API
+    #rota de registro
+    path('register/', SignUp.as_view(), name='registro'),
+    
+    #rota de Login
+    path('', login_view, name='login'),
+    
+    #rota de logout
+    path('logout/', logout_view, name='logout'),
+    
+    
+    #uma rota url para acesso da API
     path('api/', include(router.urls)),
 
     #URL para a pagina de usuario
@@ -29,26 +38,19 @@ urlpatterns = [
 
     #URL para edição de tarefas
     path('edit/<int:task_id>/',views.editar_tarefa, name='editar_task'),
-    
-    
-    path('register/', SignUp.as_view(), name='signup'),
-    path('', login_view, name='login'),
-    path('logout/', logout_view, name='logout'),
 
      #URL de formulario para redefinir a senha
     path('login/redefinir/', auth_views.PasswordResetView.as_view(template_name ='registration/password_reset_form.html'), name='senha_redifinir'),
 
     #URL que sera exibido quando o e-mail de recuperação for enviado
-    path('login/redefinir/enviado/', auth_views.PasswordResetDoneView.as_view(template_name = 'registration/password_reset_done.html'), name="password_reset_enviada"),
+    path('login/redefinir/enviado/', auth_views.PasswordResetDoneView.as_view(template_name = 'registration/password_reset_done.html'), name="password_reset_done"),
 
     #URL que confirma a redifinição da senha(após o usuário clicar no link do e-mail)
-    path('login/redefinir/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirmada'),
+    path('login/redefinir/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
 
     #URL que será exibido após a conclusão da redifinição da senha
     path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_completa'),
     
-    
-
     
     #endepoints para obter e reiniciar o token jwt
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

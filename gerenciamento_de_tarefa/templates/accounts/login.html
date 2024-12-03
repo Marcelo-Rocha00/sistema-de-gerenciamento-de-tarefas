@@ -31,7 +31,7 @@
 
         
     <span>Não tem uma conta ainda?: </span>
-    <form action="{% url 'signup' %}" method="POST" style="display:inline;">
+    <form action="{% url 'registro' %}" method="POST" style="display:inline;">
         {% csrf_token %}
         <button type="submit">Clique aqui para criar uma conta</button>
     </form>

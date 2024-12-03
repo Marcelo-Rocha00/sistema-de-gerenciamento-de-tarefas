@@ -1,15 +1,65 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import viewsets
+from django.urls import reverse_lazy
+from django.views import generic, View
+from django.contrib import messages
+from .forms import CustomUserCreationForm #importando o formulario personalizado com o e-mail
 from .models import Task
 from .serializers import taskSerializer
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from .forms import FiltroForms
 
 
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
     queryset = Task.objects.all() # Define a queryset como todas as instâncias do modelo 'task'
     serializer_class = taskSerializer # Define o serializer que será usado para converter dados do modelo 'task
+    
+
+
+class SignUp(View):
+    def get(self, request):
+        form = CustomUserCreationForm()
+        return render(request, 'accounts/register.html', {'form': form})
+    
+    def post(self, request):
+        form = CustomUserCreationForm(request.POST)
+        print(form)
+        
+        if form.is_valid():
+            form.save()  # Salva o usuário com o email
+            messages.success(request, 'Registro realizado com sucesso!')
+            return redirect(reverse_lazy('login'))
+        else:
+            # Adiciona mensagens de erro caso o formulário não seja válido
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+
+        return render(request, 'accounts/registro.html', {'form': form})
+    
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            
+            return redirect('usuario')
+        else:
+            messages.error(request, 'Usuário ou senha incorretos')
+            return render(request, 'accounts/login.html')
+
+    return render(request, 'accounts/login.html')
+    
+def logout_view(request):
+    logout(request)
+    return redirect('login')
  
     
 @login_required
