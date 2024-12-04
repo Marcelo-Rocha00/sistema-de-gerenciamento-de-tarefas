@@ -71,7 +71,7 @@ def perfil_usuario(request):
     status_selecionado = None
 
     # Captura o termo de busca do campo 'titulo' (enviado por GET)
-    titulo_busca = request.GET.get('titulo' '')
+    titulo_busca = request.GET.get('titulo', '')
 
     # Filtra as tarefas pelo termo de busca no título, se houver
     if titulo_busca:

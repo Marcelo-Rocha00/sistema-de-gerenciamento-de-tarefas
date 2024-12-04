@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfil do usuario</title>
 </head>
+{% block content %}
 <body>
     {% csrf_token %}
     <h1>Perfil do Usuário</h1>
@@ -12,23 +15,7 @@
     <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
     <p>Nome de Usuário: {{ username }}</p>
 
-    <form method="GET" action="{% url 'usuario' %}" >
-        <input type="text" placeholder="Buscar..." name="titulo" value="{{ titulo_busca }}">
-        <button type="submit">Pesquisar</button>
-    </form>
 
-    
-    
-
-    <form action="{% url 'usuario' %}" method="post">
-        {% csrf_token %}
-        <label for="status">Filtrar por status:</label>
-        <select name="status" id="status">
-            <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
-            <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
-        </select>
-        <button type="submit">Filtrar</button>
-    </form>
 
     <p>Tarefas atribuidas:</p>
 
@@ -69,4 +56,5 @@
         <button type="submit">Logout</button>
     </form>
 </body>
+{% endblock %}
 </html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Tarefas</title>
+    <!-- Estilos para a navbar e página -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Formulários na navbar */
+        .navbar form {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .navbar input, .navbar select, .navbar button {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .navbar input[type="text"], .navbar select {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegação -->
+    <div class="navbar">
+        <a href="#" class="logo">Gerenciamento de Tarefas</a>
+
+        <!-- Formulário de busca -->
+        <form method="GET" action="{% url 'usuario' %}">
+            <label for="titulo" style="color: white;">Pesquise as tarefas:</label>
+            <input type="text" placeholder="Buscar..." name="titulo" value="{{ titulo_busca }}">
+            <button type="submit">Pesquisar</button>
+        </form>
+
+        <!-- Formulário de filtro por status -->
+        <form action="{% url 'usuario' %}" method="post">
+    {% csrf_token %}
+    <label for="status" style="color: white;">Filtrar por status:</label>
+    <select name="status" id="status">
+        <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
+        <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
+<!-- Botão para remover o filtro -->
+<form action="{% url 'usuario' %}" method="get">
+    <button type="submit" class="btn-clear-filter">Remover Filtro</button>
+</form>
+
+    </div>
+
+    <!-- Bloco de conteúdo -->
+    <div class="content">
+        {% block content %}
+        <h1>Bem-vindo ao Gerenciamento de Tarefas!</h1>
+        <p>Use este sistema para organizar e gerenciar suas tarefas de maneira eficiente.</p>
+        {% endblock %}
+    </div>
+
+</body>
+</html>
