@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.contrib import messages
@@ -16,6 +17,7 @@ from .forms import FiltroForms
 class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'task'
     queryset = Task.objects.all() # Define a queryset como todas as instâncias do modelo 'task'
     serializer_class = taskSerializer # Define o serializer que será usado para converter dados do modelo 'task
+    permission_classes = [IsAuthenticated]
     
 
 
@@ -121,7 +123,7 @@ def detalhes_task(request, task_id):
     tasks = get_object_or_404(Task, id= task_id) # Busca a tarefa pelo ID
     return render(request, 'gerenciamento_de_tarefa/detalhes_task.html',{'task':tasks})  # Renderiza o template com a tarefa
 
-@login_required
+
 @login_required
 def editar_tarefa(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -129,12 +131,12 @@ def editar_tarefa(request, task_id):
     
     if request.method == 'POST':
         titulo = request.POST.get('titulo')
-        status = 'status' in request.POST  # Verifica se o checkbox foi marcado
+        status = request.POST.get('status') == 'True'  # Verifica se o checkbox foi marcado
         descricao = request.POST.get('descricao')
         data_limit = request.POST.get('data_limite')
         usuario_id = request.POST.get('usuario')
         
-        print(f"Usuario ID: {usuario_id}")
+        print(f"Status: {status}")
         
         if titulo and usuario_id:
             usuario = User.objects.get(id = usuario_id)

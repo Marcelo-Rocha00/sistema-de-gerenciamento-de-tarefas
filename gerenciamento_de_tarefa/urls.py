@@ -3,8 +3,8 @@ from rest_framework.routers import DefaultRouter
 from django.contrib.auth import views as auth_views
 from .views import taskViewSet, SignUp, logout_view , login_view
 from . import views
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 router = DefaultRouter() # Cria uma instância do roteador padrão
 router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 'task'
@@ -19,10 +19,6 @@ urlpatterns = [
     
     #rota de logout
     path('logout/', logout_view, name='logout'),
-    
-    
-    #uma rota url para acesso da API
-    path('api/', include(router.urls)),
 
     #URL para a pagina de usuario
     path('usuario/', views.perfil_usuario, name = 'usuario' ),
@@ -51,10 +47,12 @@ urlpatterns = [
     #URL que será exibido após a conclusão da redifinição da senha
     path('login/redefinir/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_completa'),
     
-    
     #endepoints para obter e reiniciar o token jwt
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', TokenObtainPairView.as_view()),
+    path('api/token/refresh/', TokenRefreshView.as_view()),
+     
+    #uma rota url para acesso da API
+    path('api/', include(router.urls)),
 ] 
 
 

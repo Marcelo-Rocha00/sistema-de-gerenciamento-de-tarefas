@@ -16,6 +16,7 @@
 
             <textarea name="descricao" placeholder="Descrição da tarefa" rows="7" cols="50" required></textarea><br>
             
+            <label for="data_limite">Data Limite:</label>
             <input type="date" name="data_limite" placeholder="Data Limite" required> <br>
             
             <label for="status">Status da Tarefa:</label>
@@ -31,11 +32,12 @@
             <button type="submit">criar nova tarefa</button>
 
             <br>
-            <form action="{% url 'usuario' %}" method="get" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Voltar para lista de tarefas</button>
+            
+        </form>
+        <form action="{% url 'usuario' %}" method="get" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Voltar para lista de tarefas</button>
 
-            </form>
         </form>
   
 </body>

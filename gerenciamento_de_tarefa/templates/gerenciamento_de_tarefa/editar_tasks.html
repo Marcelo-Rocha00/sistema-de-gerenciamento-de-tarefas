@@ -28,12 +28,12 @@
             <option value="">Selecione um usuário</option>
             {% for usuario in usuarios %}
                 <option value="{{ usuario.id }}" {% if usuario.id == task.usuario.id %}selected{% endif %}>{{ usuario.username }}</option>
-            {% endfor %}
+            {% endfor %} 
         </select>
         <br>
 
         <label>
-            <input type="checkbox" name="status" {% if task.completed %}checked{% endif %}> Concluída
+            <input type="checkbox" name="status"  value="True" {% if task.status %}checked{% endif %}> Concluída
         </label>
         <br>
 
