@@ -5,56 +5,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil do usuario</title>
+    {% block content %}
+    <title>Perfil do Usuário</title>
+    <style>
+        /* Resetando margens e padding de todos os elementos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+
+        /* Layout centralizado */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 90px;
+            background-color: #fff;
+            border-radius: 9px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        /* Lista de tarefas */
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .task-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Link de tarefa */
+        .task-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Status */
+        .status {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .status.completed {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status.pending {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        /* Botões de ação */
+        .task-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-delete, .btn-edit {
+            padding: 5px 15px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+
+        .btn-edit {
+            background-color: #f39c12;
+            color: #fff;
+        }
+
+        /* Botão de Adicionar Nova Tarefa */
+        .btn-add-task {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-add-task:hover {
+            background-color: #0056b3;
+        }
+
+
+        /* Sem tarefas */
+        .no-tasks {
+            text-align: center;
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .task-actions {
+                flex-direction: column;
+            }
+
+            .btn-delete, .btn-edit {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
-{% block content %}
+
 <body>
-    {% csrf_token %}
-    <h1>Perfil do Usuário</h1>
+    <header>
+        <h1>Perfil do Usuário</h1>
+    </header>
+    <div class="container">
+        {% csrf_token %}
+        
+        <!-- Exibição da mensagem de sucesso -->
+        <p>Nome de Usuário: {{ username }}</p>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+        <p>Tarefas atribuídas:</p>
     
-    <!-- Exibe o nome do usuário que foi passado para o template a partir da view 'perfil_usuario'. -->
-    <p>Nome de Usuário: {{ username }}</p>
-
-
-
-    <p>Tarefas atribuidas:</p>
-
-
-    <ul>
-        {% for task in tasks %}
-            <li>
-                <a href="{% url 'detalhes_task' task.id %}">{{ task.titulo }}</a>
-                {% if task.status %} - Concluída {% else %} - Pendente {% endif %} 
-                {% if task.id %}
-                <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Excluir</button>
-                </form>
-
-                <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">editar</button>
-                </form>
-                {% endif %}
-
-            </li>
-        {% empty %}
-        <li>Não há tarefas atribuídas.</li>
-    {% endfor %}
-    </ul>
-
-        
-    <form action="{% url 'add_task' %}" method="get" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Adicionar nova Tarefa</button>
-    </form>
-   
-
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        
-        <button type="submit">Logout</button>
-    </form>
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item">
+                    <span>
+                        <a href="{% url 'detalhes_task' task.id %}" class="task-link">{{ task.titulo }}</a>
+                        <span class="status {% if task.status %}completed{% else %}pending{% endif %}">
+                            {% if task.status %}Concluída{% else %}Pendente{% endif %}
+                        </span>
+                    </span>
+                    <span class="task-actions">
+                        {% if task.id %}
+                            <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-delete">Excluir</button>
+                            </form>
+                            <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-edit">Editar</button>
+                            </form>
+                        {% endif %}
+                    </span>
+                </li>
+            {% empty %}
+                <li class="no-tasks">Não há tarefas atribuídas.</li>
+            {% endfor %}
+        </ul>
+    
+        <form action="{% url 'add_task' %}" method="get" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-add-task">Adicionar nova Tarefa</button>
+        </form>
+    
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-logout">Logout</button>
+        </form>
+    </div>
 </body>
 {% endblock %}
 </html>

@@ -1,22 +1,99 @@
-@ -0,0 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ task.titulo }}</title>
+    <style>
+        /* Resetando margens e padding de todos os elementos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Estilo do cabeçalho */
+        h1 {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Estilo dos parágrafos */
+        p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        p strong {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Estilo do botão */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Layout do conteúdo */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Tarefa: {{ task.titulo }}</h1>
-    <p><strong>Descrição:</strong>{{ task.descricao }}</p>
-    <p><strong>Data Criação:</strong>{{ task.data_criacao }}</p>
-    <p><strong>Data Limite:</strong>{{ task.data_limite }}</p>
-    <p><strong>Status:</strong>{% if task.status %} Concluída {% else %} Pendente {% endif %}</p>
+    <div class="content">
+        <h1>Tarefa: {{ task.titulo }}</h1>
+        <p><strong>Descrição:</strong> {{ task.descricao }}</p>
+        <p><strong>Data Criação:</strong> {{ task.data_criacao }}</p>
+        <p><strong>Data Limite:</strong> {{ task.data_limite }}</p>
+        <p><strong>Status:</strong> {% if task.status %} Concluída {% else %} Pendente {% endif %}</p>
     
-    <form action="{% url 'usuario' %}" method="get" style="display:inline;">
-        <button type="submit">Voltar para lista de tarefas</button>
-    
-
-    
+        <form action="{% url 'usuario' %}" method="get" style="display:inline;">
+            <button type="submit">Voltar para lista de tarefas</button>
+        </form>
+    </div>
 </body>
 </html>

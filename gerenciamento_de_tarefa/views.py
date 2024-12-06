@@ -113,10 +113,15 @@ def add_task(request):# função para adicionar novas tarefas
 
 
 @login_required
-def delete_task(request, task_id): # criando uma Função para deletar uma tarefa específica com base no ID
-    task = Task.objects.get(id=task_id) # obtem a tarefa com base no 'ID' fornecido
-    task.delete() # Deleta a tarefa encontrada
-    return redirect('usuario')# Redireciona para a página do usuário após deletar a tarefa
+def delete_task(request, task_id): 
+    try:
+        task = Task.objects.get(id=task_id)  # Obtém a tarefa com base no 'ID' fornecido
+        task.delete()  # Deleta a tarefa encontrada
+        messages.success(request, 'Tarefa excluída com sucesso!')  # Mensagem de sucesso
+    except Task.DoesNotExist:
+        messages.error(request, 'Tarefa não encontrada.')  # Caso a tarefa não seja encontrada
+    
+    return redirect('usuario')
 
 @login_required
 def detalhes_task(request, task_id):

@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Tarefas</title>
-    <!-- Estilos para a navbar e página -->
+    <title>Perfil do Usuário</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Resetando margens e padding de todos os elementos */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
+        /* Corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        /* Navbar */
         .navbar {
             background-color: #333;
             overflow: hidden;
@@ -39,6 +47,21 @@
             color: white;
         }
 
+        /* Estilo para os botões de logout */
+        .btn-logout {
+            background-color: #0000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-logout:hover {
+            background-color: #343a40;
+        }
+
         /* Formulários na navbar */
         .navbar form {
             display: inline-block;
@@ -54,8 +77,80 @@
         .navbar input[type="text"], .navbar select {
             width: 150px;
         }
+
+        /* Estilo para as mensagens */
+        .messages {
+            margin: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .message.warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+        /* Layout centralizado */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .task-actions {
+                flex-direction: column;
+            }
+
+            .btn-delete, .btn-edit {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Barra de navegação -->
@@ -71,20 +166,25 @@
 
         <!-- Formulário de filtro por status -->
         <form action="{% url 'usuario' %}" method="post">
-    {% csrf_token %}
-    <label for="status" style="color: white;">Filtrar por status:</label>
-    <select name="status" id="status">
-        <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
-        <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
-    </select>
-    <button type="submit">Filtrar</button>
-</form>
+            {% csrf_token %}
+            <label for="status" style="color: white;">Filtrar por status:</label>
+            <select name="status" id="status">
+                <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
+                <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
 
-<!-- Botão para remover o filtro -->
-<form action="{% url 'usuario' %}" method="get">
-    <button type="submit" class="btn-clear-filter">Remover Filtro</button>
-</form>
+        <!-- Botão para remover o filtro -->
+        <form action="{% url 'usuario' %}" method="get">
+            <button type="submit" class="btn-clear-filter">Remover Filtro</button>
+        </form>
 
+        <!-- Botão de Logout -->
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-logout">Logout</button>
+        </form>
     </div>
 
     <!-- Bloco de conteúdo -->
@@ -94,6 +194,17 @@
         <p>Use este sistema para organizar e gerenciar suas tarefas de maneira eficiente.</p>
         {% endblock %}
     </div>
+
+    <!-- Exibição das mensagens -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 </body>
 </html>
