@@ -4,39 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;  /* Aumentei o padding para tornar a caixa maior */
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;  /* Caixa maior */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+            text-align: left;  /* Alinha as labels à esquerda */
+        }
+
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .link-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .link-group span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .link-group form {
+            display: inline-block;
+        }
+
+        .link-group button {
+            margin-left: 5px;
+            background-color: #007BFF;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        .link-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-    
-        <div>
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div>
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-        </div><br>
-        
-        <button type="submit">Login</button>
-    </form><br>
-    <span>Esqueceu a senha?:</span>
-    <form action="{% url 'senha_redifinir' %}" method="POST" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Clique aqui para redefinir</button>
-    </form>
-    <br>
-    <br>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
 
-        
-    <span>Não tem uma conta ainda?: </span>
-    <form action="{% url 'registro' %}" method="POST" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Clique aqui para criar uma conta</button>
-    </form>
-    
-        
-    
+        <div class="link-group">
+            <span>Esqueceu a senha?</span>
+            <form action="{% url 'senha_redifinir' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Clique aqui para redefinir</button>
+            </form>
+        </div>
+
+        <div class="link-group">
+            <span>Não tem uma conta ainda?</span>
+            <form action="{% url 'registro' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Clique aqui para criar uma conta</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
