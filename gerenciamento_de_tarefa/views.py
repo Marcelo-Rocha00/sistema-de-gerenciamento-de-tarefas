@@ -141,7 +141,6 @@ def editar_tarefa(request, task_id):
         data_limit = request.POST.get('data_limite')
         usuario_id = request.POST.get('usuario')
         
-        print(f"Status: {status}")
         
         if titulo and usuario_id:
             usuario = User.objects.get(id = usuario_id)
