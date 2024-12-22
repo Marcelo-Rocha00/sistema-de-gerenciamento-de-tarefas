@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Usuário: {{ info.username }}</h1>
+
+    {% if task %}
+        <ul>
+            {% for task in task %}
+                <li>
+                    <a href="{% url 'detalhes_task' task.id %}">{{ task.titulo }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <p>Este usuário não possui tarefas.</p>
+    {% endif %}
+</body>
+</html>

@@ -158,5 +158,19 @@ def busca_tarefa(request):
     busca = request.GET.get('query', '')
     resultado = Task.objects.filter()
     
-    return render(request, 'User/pagina_usuario.html', {'busca': busca})
+    return render(request, 'gerenciamento_de_tarefa/pagina_usuario.html', {'busca': busca})
 
+
+
+def lista_user(request):
+    usuarios = User.objects.all()
+
+    print(usuarios)
+    return render(request, 'gerenciamento_de_tarefa/lista_user.html', {'usuarios':usuarios})
+
+def detalhes_user(request, User_id):
+    usuario = get_object_or_404(User, id= User_id) 
+    tasks = Task.objects.filter(usuario=usuario)
+    print(tasks)
+    return render(request, 'gerenciamento_de_tarefa/detalhes_user.html', {'info': usuario, 'task': tasks})  # Renderiza o template com a tarefa
+    
