@@ -11,8 +11,10 @@ router.register(r'task', taskViewSet) # Registra o viewset de tarefas na rota 't
 
 urlpatterns = [
     
+    #rota que exibe uma lista de tarefas com base no usuario selecionado
     path('detalhes_user/<int:User_id>/', views.detalhes_user, name= 'detalhes_user'),
 
+    #rota para lista de usuarios
     path('lista_user/', views.lista_user, name='lista_user' ),
 
     #rota de registro

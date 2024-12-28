@@ -167,13 +167,15 @@ def busca_tarefa(request):
     return render(request, 'gerenciamento_de_tarefa/pagina_usuario.html', {'busca': busca})
 
 
-
+@login_required
 def lista_user(request):
     usuarios = User.objects.all()
 
     print(usuarios)
     return render(request, 'gerenciamento_de_tarefa/lista_user.html', {'usuarios':usuarios})
 
+
+@login_required
 def detalhes_user(request, User_id):
     usuario = get_object_or_404(User, id= User_id) 
     tasks = Task.objects.filter(usuario=usuario)
