@@ -22,7 +22,6 @@
             color: #333;
         }
 
-
         /* Layout centralizado */
         .container {
             max-width: 1000px;
@@ -43,6 +42,13 @@
 
         h1 {
             font-size: 2.5em;
+        }
+
+        .username {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         /* Lista de tarefas */
@@ -132,7 +138,6 @@
             background-color: #0056b3;
         }
 
-
         /* Sem tarefas */
         .no-tasks {
             text-align: center;
@@ -166,8 +171,7 @@
     <div class="container">
         {% csrf_token %}
         
-        <!-- Exibição da mensagem de sucesso -->
-        <p>Nome de Usuário: {{ username }}</p>
+        <p class="username">Nome de Usuário: {{ username }}</p>
 
         {% if messages %}
         <div class="messages">
@@ -177,41 +181,63 @@
                 </div>
             {% endfor %}
         </div>
-    {% endif %}
+        {% endif %}
+        
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+            <!-- Filtro -->
+            <form action="{% url 'usuario' %}" method="post" style="display: flex; align-items: center;">
+                {% csrf_token %}
+                <label for="status" style="color: #333; font-weight: bold; margin-right: 10px;">Filtrar por status:</label>
+                <select name="status" id="status" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="true" {% if request.POST.status == 'true' %}selected{% endif %}>Concluídas</option>
+                    <option value="false" {% if request.POST.status == 'false' %}selected{% endif %}>Pendentes</option>
+                </select>
+                <button type="submit" style="margin-left: 10px; padding: 5px 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Filtrar
+                </button>
+            </form>
+        
+            <!-- Remover Filtro -->
+            <form action="{% url 'usuario' %}" method="get" style="display: flex; align-items: center;">
+                <button type="submit" class="btn-clear-filter" style="padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Remover Filtro
+                </button>
+            </form>
+        </div>
+        
         <p>Tarefas atribuídas:</p>
-    
+        
         <ul class="task-list">
             {% for task in tasks %}
                 <li class="task-item">
                     <span>
-                        <a href="{% url 'detalhes_task' task.id %}" class="task-link">{{ task.titulo }}</a>
+                        {{ task.titulo }}
                         <span class="status {% if task.status %}completed{% else %}pending{% endif %}">
                             {% if task.status %}Concluída{% else %}Pendente{% endif %}
                         </span>
                     </span>
                     <span class="task-actions">
-                        {% if task.id %}
-                            <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-delete">Excluir</button>
-                            </form>
-                            <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-edit">Editar</button>
-                            </form>
-                        {% endif %}
+                        <a href="{% url 'detalhes_task' task.id %}" class="task-link">Ver Detalhes</a>
+                        <form action="{% url 'delete_task' task.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-delete">Excluir</button>
+                        </form>
+                        <form action="{% url 'editar_task' task.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-edit">Editar</button>
+                        </form>
                     </span>
                 </li>
             {% empty %}
                 <li class="no-tasks">Não há tarefas atribuídas.</li>
             {% endfor %}
         </ul>
-    
+
         <form action="{% url 'add_task' %}" method="get" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn-add-task">Adicionar nova Tarefa</button>
         </form>
-    
+
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn-logout">Logout</button>

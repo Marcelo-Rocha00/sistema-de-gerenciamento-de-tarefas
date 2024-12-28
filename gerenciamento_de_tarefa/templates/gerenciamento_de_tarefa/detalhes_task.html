@@ -91,9 +91,7 @@
         <p><strong>Data Limite:</strong> {{ task.data_limite }}</p>
         <p><strong>Status:</strong> {% if task.status %} Concluída {% else %} Pendente {% endif %}</p>
     
-        <form action="{% url 'usuario' %}" method="get" style="display:inline;">
-            <button type="submit">Voltar para lista de tarefas</button>
-        </form>
+        <button class="btn-back" onclick="window.history.back();">Voltar</button>
     </div>
 </body>
 </html>

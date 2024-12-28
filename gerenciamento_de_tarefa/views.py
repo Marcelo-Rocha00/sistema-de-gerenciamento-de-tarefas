@@ -21,27 +21,33 @@ class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'tas
     
 
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from .forms import CustomUserCreationForm  # Certifique-se de que está importando o formulário correto
+
 class SignUp(View):
     def get(self, request):
         form = CustomUserCreationForm()
-        return render(request, 'accounts/register.html', {'form': form})
-    
+        return render(request, 'accounts/registro.html', {'form': form})
+
     def post(self, request):
         form = CustomUserCreationForm(request.POST)
-        print(form)
-        
+
         if form.is_valid():
-            form.save()  # Salva o usuário com o email
-            messages.success(request, 'Registro realizado com sucesso!')
+            # Salva o usuário e adiciona uma mensagem de sucesso com a tag "registro"
+            form.save()
+            messages.success(request, 'Registro realizado com sucesso!', extra_tags='registro')
             return redirect(reverse_lazy('login'))
         else:
-            # Adiciona mensagens de erro caso o formulário não seja válido
+            # Adiciona mensagens de erro com a tag "registro" para cada campo inválido
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f"{field}: {error}")
+                    messages.error(request, f"{field}: {error}", extra_tags='registro')
 
         return render(request, 'accounts/registro.html', {'form': form})
-    
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -86,7 +92,7 @@ def perfil_usuario(request):
 
     
     return render(request,'gerenciamento_de_tarefa/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
-     , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca} )# Envia um dicionário com o nome de usuário logado para o template
+     , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca, 'mostrar_pesquisa': True} )# Envia um dicionário com o nome de usuário logado para o template
 
 
 @login_required

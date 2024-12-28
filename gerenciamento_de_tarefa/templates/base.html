@@ -17,6 +17,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f7fc;
             color: #333;
+            padding-top: 60px; /* Espaço para a navbar fixa */
         }
 
         /* Navbar */
@@ -27,6 +28,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Garante que a navbar fique acima do conteúdo */
         }
 
         .navbar a {
@@ -148,6 +154,31 @@
                 margin-bottom: 10px;
             }
         }
+
+        /* Estilo para o botão de "Lista de Usuários" */
+        .navbar a.lista-usuarios {
+            background-color: rgb(2, 1, 1); /* Cor de fundo azul corrigida */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .navbar a.lista-usuarios:hover {
+            background-color: #0056b3; /* Cor de fundo mais escura no hover */
+            transform: scale(1.05);
+        }
+
+        .navbar a.lista-usuarios:active {
+            background-color: #004085;
+            transform: scale(1);
+        }
+
     </style>
 </head>
 
@@ -155,36 +186,24 @@
 
     <!-- Barra de navegação -->
     <div class="navbar">
-        <a href="#" class="logo">Gerenciamento de Tarefas</a>
+        <a href="{% url 'usuario' %}" class="logo">Gerenciamento de Tarefas</a>
+        <a href="{% url 'lista_user' %}" class="lista-usuarios">Lista de Usuários</a>
 
         <!-- Formulário de busca -->
+        {% if mostrar_pesquisa %}
         <form method="GET" action="{% url 'usuario' %}">
             <label for="titulo" style="color: white;">Pesquise as tarefas:</label>
             <input type="text" placeholder="Buscar..." name="titulo" value="{{ titulo_busca }}">
             <button type="submit">Pesquisar</button>
         </form>
-
-        <!-- Formulário de filtro por status -->
-        <form action="{% url 'usuario' %}" method="post">
-            {% csrf_token %}
-            <label for="status" style="color: white;">Filtrar por status:</label>
-            <select name="status" id="status">
-                <option value="true" {% if form.status.value == 'true' %}selected{% endif %}>Concluídas</option>
-                <option value="false" {% if form.status.value == 'false' %}selected{% endif %}>Pendentes</option>
-            </select>
-            <button type="submit">Filtrar</button>
-        </form>
-
-        <!-- Botão para remover o filtro -->
-        <form action="{% url 'usuario' %}" method="get">
-            <button type="submit" class="btn-clear-filter">Remover Filtro</button>
-        </form>
-
+        {% endif %}
         <!-- Botão de Logout -->
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn-logout">Logout</button>
         </form>
+
+        
     </div>
 
     <!-- Bloco de conteúdo -->
@@ -194,17 +213,6 @@
         <p>Use este sistema para organizar e gerenciar suas tarefas de maneira eficiente.</p>
         {% endblock %}
     </div>
-
-    <!-- Exibição das mensagens -->
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
 
 </body>
 </html>

@@ -18,11 +18,11 @@
 
         .container {
             background-color: #ffffff;
-            padding: 15px;  /* Menos padding para reduzir altura */
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 350px;  /* Largura reduzida */
+            max-width: 350px;
             transition: box-shadow 0.3s ease;
         }
 
@@ -33,20 +33,35 @@
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 10px;  /* Menos margem inferior */
+            margin-bottom: 10px;
+        }
+
+        .messages {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #f44336;
+            border-radius: 5px;
+            background-color: #fdecea;
+            color: #f44336;
+            font-size: 14px;
+            list-style: none;
+        }
+
+        .messages li {
+            margin: 5px 0;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            gap: 12px;  /* Reduzido o espaçamento entre os campos */
+            gap: 12px;
         }
 
         input[type="text"], input[type="email"], input[type="password"] {
-            padding: 10px;  /* Menos padding para reduzir altura */
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            font-size: 14px;  /* Fonte menor */
+            font-size: 14px;
             width: 100%;
             box-sizing: border-box;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -59,7 +74,7 @@
         }
 
         button {
-            padding: 10px;  /* Menos padding para reduzir altura */
+            padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -87,7 +102,7 @@
 
         p {
             text-align: center;
-            margin-top: 10px;  /* Menos margem superior */
+            margin-top: 10px;
             color: #555;
         }
 
@@ -97,18 +112,18 @@
         }
 
         .form-group label {
-            margin-bottom: 4px;  /* Menos margem inferior */
+            margin-bottom: 4px;
             color: #333;
             font-weight: bold;
         }
 
         .form-group input {
-            margin-bottom: 10px;  /* Menos margem entre os campos */
+            margin-bottom: 10px;
         }
 
         .form-group .errorlist {
             color: red;
-            font-size: 13px;  /* Fonte menor para os erros */
+            font-size: 13px;
             margin-top: 5px;
             padding-left: 10px;
         }
@@ -121,6 +136,18 @@
 <body>
     <div class="container">
         <h1>Registro</h1>
+        
+        <!-- Exibe mensagens de erro gerais -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if "registro" in message.tags %}
+                        <li>{{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
