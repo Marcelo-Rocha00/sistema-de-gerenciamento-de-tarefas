@@ -98,11 +98,11 @@ def perfil_usuario(request):
 @login_required
 def add_task(request):# função para adicionar novas tarefas
     if request.method ==  'POST':# Verifica se a requisição é do tipo 'POST', é processa os dados do formulário
-        title = request.POST.get('titulo')  # Obtém o título da tarefa
+        title = request.POST.get('titulo')  # Obtém o título da tarefa que o usuario inseriu
         stats = request.POST.get('status') == 'on'  # Verifica se a checkbox está marcada e define como True ou False
-        description = request.POST.get('descricao') # Obtém a descrição da tarefa
-        data_limit = request.POST.get('data_limite') # Obtém a data limite da tarefa
-        usuario_id = request.POST.get('usuario') # Obtém o ID do usuário associado à tarefa
+        description = request.POST.get('descricao') # Obtém a descrição da tarefa que o usuario inseriu
+        data_limit = request.POST.get('data_limite') # Obtém a data limite da tarefa que o usuario inseriu
+        usuario_id = request.POST.get('usuario') # Obtém o ID do usuário associado à tarefa que o usuario inseriu
         if title: # Verifica se o titulo da tarefa não esta vazio
             usuario = User.objects.get(id = usuario_id)## Obtém o objeto do usuário correspondente ao ID fornecido
             Task.objects.create(
