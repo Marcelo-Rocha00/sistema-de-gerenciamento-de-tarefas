@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h$s_%b9iai0m%@gu9xbasl-e$8r0h39cc*3_+&92*(0jjck940'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -147,8 +147,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Define o backen
 EMAIL_HOST = 'smtp.gmail.com'  # Exemplo: usando o Gmail
 EMAIL_PORT = 587  # Porta para TLS
 EMAIL_USE_TLS = True  # Habilitar TLS
-EMAIL_HOST_USER = 'senaccontabancaria2024@gmail.com' # recebe o nome de usuário do e-mail a partir das variáveis de ambiente
-EMAIL_HOST_PASSWORD = 'sqzt zxwk oexk qbcb'  # Recupera a senha do e-mail a partir das variáveis de ambiente
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # Recupera o nome de usuário do e-mail a partir das variáveis de ambiente
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Recupera a senha do e-mail a partir das variáveis de ambiente
 
 #configuração para autenticação via token
 
