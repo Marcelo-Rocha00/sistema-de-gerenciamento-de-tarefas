@@ -20,13 +20,6 @@ class taskViewSet(viewsets.ModelViewSet):# criando um viewset para o modelo 'tas
     permission_classes = [IsAuthenticated]
     
 
-
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views import View
-from .forms import CustomUserCreationForm  # Certifique-se de que está importando o formulário correto
-
 class SignUp(View):
     def get(self, request):
         form = CustomUserCreationForm()
