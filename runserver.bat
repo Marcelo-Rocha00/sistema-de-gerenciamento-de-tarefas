@@ -1,6 +1,6 @@
 @echo off
 REM Navega até o diretório do projeto
-cd C:\Users\Aluno\OneDrive\Documentos\Erick\sistema-de-gerenciamento-de-tarefas
+cd c:\Users\marce_2frgzbu\OneDrive\Documentos\GitHub\sistema-de-gerenciamento-de-tarefas
 
 REM Ativa o ambiente virtual (se estiver usando)
 REM Ativa o ambiente virtual (se estiver usando)
