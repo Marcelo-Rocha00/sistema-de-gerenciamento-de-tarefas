@@ -85,7 +85,7 @@ def perfil_usuario(request):
 
     
     return render(request,'gerenciamento_de_tarefa/pagina_usuario.html' # Especifica o caminho do template HTML a ser usado
-     , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca, 'mostrar_pesquisa': True} )# Envia um dicionário com o nome de usuário logado para o template
+    , {'username': request.user.username, 'tasks': tasks, 'form': form, 'status_selecionado': status_selecionado, 'titulo_busca': titulo_busca, 'mostrar_pesquisa': True} )# Envia um dicionário com o nome de usuário logado para o template
 
 
 @login_required

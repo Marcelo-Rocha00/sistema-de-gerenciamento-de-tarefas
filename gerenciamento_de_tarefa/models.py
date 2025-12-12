@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User #criando usuarios utilizando o usuario padrão do django
-
 class Task(models.Model): #definindo um modelo pra task
     titulo = models.CharField(null=True, max_length=100,) # campo onde o titulo sera inserido, limitado a 100 caracteres
     descricao = models.TextField(blank=True,null=True)# campo onde é possivel inserir uma descrição detalhada do pedido
